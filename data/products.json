@@ -1,0 +1,16 @@
+[
+  {
+    "id": "564",
+    "title": "A Book",
+    "imageUrl": "https://media.istockphoto.com/id/1146517111/photo/taj-mahal-mausoleum-in-agra.jpg?s=612x612&w=0&k=20&c=vcIjhwUrNyjoKbGbAQ5sOcEzDUgOfCsm9ySmJ8gNeRk=",
+    "description": "This is an awesome book!",
+    "price": "19"
+  },
+  {
+    "title": "another book",
+    "imageUrl": "https://1.bp.blogspot.com/-kK7Fxm7U9o0/YN0bSIwSLvI/AAAAAAAACFk/aF4EI7XU_ashruTzTIpifBfNzb4thUivACLcBGAsYHQ/s1280/222.jpg",
+    "description": "some description of this product here",
+    "price": "20",
+    "id": "0.15665751535756978"
+  }
+]
