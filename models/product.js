@@ -51,8 +51,12 @@ module.exports = class Product {
       const existingProductIndex = products.findIndex((prod) => prod.id === id);
       const updatedProducts = [...products];
       updatedProducts.splice(existingProductIndex, 1);
-      fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
-        console.log(err);
+      fs.writeFile(p, JSON.stringify(updatedProducts), (err, filecontent) => {
+        if (err) {
+          console.log(err);
+        } else {
+          cb();
+        }
       });
     });
   }
