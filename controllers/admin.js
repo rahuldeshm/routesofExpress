@@ -59,7 +59,14 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  const pro = new Product(title, imageUrl, price, description);
+  const pro = new Product(
+    title,
+    imageUrl,
+    price,
+    description,
+    null,
+    req.user._id
+  );
   pro
     .save()
     .then((result) => {
