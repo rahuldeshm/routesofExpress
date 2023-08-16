@@ -1,5 +1,5 @@
 const Product = require("../models/product");
-
+const mongodb = require("mongodb");
 exports.getAddProduct = (req, res, next) => {
   res.render("admin/edit-product", {
     pageTitle: "Add Product",
@@ -37,17 +37,14 @@ exports.postEditProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const description = req.body.description;
   const price = req.body.price;
-  const produc = new Product(title, imageUrl, price, description, id);
-  produc
-    .save()
-
+  Product.updateOne({ _id: id }, { title, imageUrl, price, description })
     .then(() => res.redirect("/admin/products"))
     .catch((err) => console.log(err));
 };
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.params.productId;
-  Product.deleteOne(prodId)
+  Product.deleteOne(new mongodb.ObjectId(prodId))
     .then(() => {
       res.redirect("/admin/products");
     })
@@ -59,14 +56,12 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  const pro = new Product(
+  const pro = new Product({
     title,
     imageUrl,
     price,
     description,
-    null,
-    req.user._id
-  );
+  });
   pro
     .save()
     .then((result) => {
@@ -77,7 +72,7 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()
     .then((rows) => {
       res.render("admin/products", {
         prods: rows,
