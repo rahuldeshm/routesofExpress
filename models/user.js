@@ -36,6 +36,14 @@ userSchema.methods.addToCart = function (product) {
   this.cart = updatedCart;
   return this.save();
 };
+
+userSchema.methods.deleteCartItem = function (prodId) {
+  const updatedCart = this.cart.items.filter(
+    (e) => e.productId.toString() !== prodId.toString()
+  );
+  this.cart = updatedCart;
+  return this.save();
+};
 // class User {
 //   constructor(name, email, cart, id) {
 //     this.name = name;
@@ -52,15 +60,7 @@ userSchema.methods.addToCart = function (product) {
 //       .catch((err) => console.log(err));
 //   }
 //
-//   deleteCartItem(prodId) {
-//     const updatedCart = this.cart.items.filter(
-//       (e) => e.productId.toString() !== prodId.toString()
-//     );
-//     const db = getDb();
-//     return db
-//       .collection("users")
-//       .updateOne({ _id: this._id }, { $set: { cart: { items: updatedCart } } });
-//   }
+//
 //   addOrder() {
 //     const db = getDb();
 //     return this.getCart()
