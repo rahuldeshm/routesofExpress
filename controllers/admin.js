@@ -61,6 +61,7 @@ exports.postAddProduct = (req, res, next) => {
     imageUrl,
     price,
     description,
+    userId: req.user,
   });
   pro
     .save()
@@ -73,7 +74,11 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   Product.find()
+    .populate("userId", "name")
+    // .select("title price -_id")//can do like this to get only specified data.
+    // .populate("userId", "name")
     .then((rows) => {
+      // console.log(rows);
       res.render("admin/products", {
         prods: rows,
         pageTitle: "Admin Products",
