@@ -19,6 +19,23 @@ const userSchema = new Schema({
   },
 });
 
+userSchema.methods.addToCart = function (product) {
+  const i = this.cart.items.findIndex((e) => product._id.equals(e.productId));
+  let updatedCartItems = [...this.cart.items];
+  if (i === -1) {
+    updatedCartItems.push({
+      productId: product._id,
+      quantity: 1,
+    });
+  } else {
+    updatedCartItems[i].quantity++;
+  }
+  const updatedCart = {
+    items: updatedCartItems,
+  };
+  this.cart = updatedCart;
+  return this.save();
+};
 // class User {
 //   constructor(name, email, cart, id) {
 //     this.name = name;
@@ -34,44 +51,7 @@ const userSchema = new Schema({
 //       .then((result) => console.log(result))
 //       .catch((err) => console.log(err));
 //   }
-//   addToCart(product) {
-//     const i = this.cart.items.findIndex((e) => product._id.equals(e.productId));
-//     let updatedCartItems = [...this.cart.items];
-//     if (i === -1) {
-//       updatedCartItems.push({
-//         productId: new mongodb.ObjectId(product._id),
-//         quantity: 1,
-//       });
-//     } else {
-//       updatedCartItems[i].quantity++;
-//     }
-//     const updatedCart = {
-//       items: updatedCartItems,
-//     };
-//     const db = getDb();
-//     return db
-//       .collection("users")
-//       .updateOne({ _id: this._id }, { $set: { cart: updatedCart } });
-//   }
-//   getCart() {
-//     const db = getDb();
-//     const productIds = this.cart.items.map((i) => i.productId);
-//     return db
-//       .collection("products")
-//       .find({ _id: { $in: productIds } })
-//       .toArray()
-//       .then((products) => {
-//         return products.map((p) => {
-//           return {
-//             ...p,
-//             quantity: this.cart.items.find(
-//               (e) => e.productId.toString() === p._id.toString()
-//             ).quantity,
-//           };
-//         });
-//       })
-//       .catch((err) => console.log(err));
-//   }
+//
 //   deleteCartItem(prodId) {
 //     const updatedCart = this.cart.items.filter(
 //       (e) => e.productId.toString() !== prodId.toString()
